@@ -72,6 +72,7 @@ fun Application.module(testing: Boolean = false) {
     }
 
     routing {
+        books()
         get("/") {
             call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
         }

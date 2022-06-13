@@ -1,35 +1,49 @@
 package com.learning
 
 class DataManager {
-    var books = ArrayList<Book>()
+
+    private var books = ArrayList<Book>()
 
     private fun gimmeId() = books.size.toString()
 
-    fun initialize() {
+    init {
         for (i in 1..10) {
-            books.add(Book(gimmeId(), "Book name ${gimmeId()}", "Author ${gimmeId()}", 100.0f))
+            val currentId = gimmeId()
+            books.add(Book(currentId, "Book name $currentId", "Author $currentId", 100.0f))
         }
     }
 
-    fun addNewBook(book: Book) {
+    fun addNewBook(book: Book): Book {
         books.add(book)
+        return book
     }
 
-    fun updateBook(book: Book): Book? {
+    private fun findBookById(bookId: String): Book? {
         val foundBook = books.find {
-            it.id == book.id
+            it.id == bookId
         }
+        return foundBook
+    }
+
+    fun updateBook(book: Book): Book {
+        val foundBook = findBookById(book.id)
         foundBook?.title = book.title
         foundBook?.author = book.author
         foundBook?.price = book.price
-        return foundBook
+        return foundBook!!
     }
 
-    fun deleteBook(book: Book): Book? {
-        val foundBook = books.find {
-            it.id == book.id
-        }
+    fun deleteBook(book: Book): Book {
+        val foundBook = findBookById(book.id)
         books.remove(foundBook)
-        return foundBook
+        return foundBook!!
     }
+
+    fun deleteBookById(bookId: String): Book {
+        val foundBook = findBookById(bookId)
+        books.remove(foundBook)
+        return foundBook!!
+    }
+
+    fun allBooks() = books
 }
